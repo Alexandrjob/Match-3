@@ -7,7 +7,7 @@ namespace WindowsFormsAppPechenka
 {
     class Draw
     {
-        Playspace playspace = new Playspace();//Ссылачка на игровое пространство
+        static Playspace playspace = new Playspace();//Ссылачка на игровое пространство
         public static void Circle(int x, int y)
         {
             PictureBox pic = CreatPictureBox(x, y);
@@ -67,7 +67,7 @@ namespace WindowsFormsAppPechenka
             pic.Refresh();
         }
 
-        private PictureBox CreatPictureBox(int x, int y)
+        private static PictureBox CreatPictureBox(int x, int y)
         {
             PictureBox pic = new PictureBox
             {
