@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных со сборкой.
-[assembly: AssemblyTitle("WindowsFormsPechenka")]
+[assembly: AssemblyTitle("WindowsFormsAppPechenka")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WindowsFormsPechenka")]
+[assembly: AssemblyProduct("WindowsFormsAppPechenka")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("454a6f97-bb6c-43b7-95ab-c17d3069ab68")]
+[assembly: Guid("94ff274a-23ef-4192-af5a-b00122d3ad1c")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

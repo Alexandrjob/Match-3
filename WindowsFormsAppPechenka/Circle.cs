@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WindowsFormsPechenka
+
+namespace WindowsFormsAppPechenka
 {
     public class Circle
     {
         public int Radius { get; set; }
-
-        Graphics e;
-        public Circle(int R)
+        public Circle()
         {
-            Radius = R;
+           
         }
 
-        public void Draw(int x, int y)
+        public void Draw(int x, int y,Form f)
         {
             PictureBox pic = new PictureBox();
             pic.Image = new Bitmap(40, 40);
@@ -31,7 +26,7 @@ namespace WindowsFormsPechenka
             graph.DrawEllipse(Pens.Red, 5, 5, 30, 30);
 
             graph.Dispose();
-            Controls.Add(pic);
+            f.Controls.Add(pic);
         }
     }
 }

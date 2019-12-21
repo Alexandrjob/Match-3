@@ -1,0 +1,11 @@
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.csprojAssemblyReference.cache
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.Properties.Resources.resources
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.csproj.GenerateResource.cache
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\bin\Debug\WindowsFormsAppPechenka.exe.config
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\bin\Debug\WindowsFormsAppPechenka.exe
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\bin\Debug\WindowsFormsAppPechenka.pdb
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.exe
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.pdb
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.MenuForm.resources
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.Playspace.resources
+C:\Users\Александр\source\repos\WindowsFormsAppPechenka\WindowsFormsAppPechenka\obj\Debug\WindowsFormsAppPechenka.ResultForm.resources

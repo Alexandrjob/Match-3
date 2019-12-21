@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WindowsFormsPechenka.Properties
+namespace WindowsFormsAppPechenka.Properties
 {
 
 
