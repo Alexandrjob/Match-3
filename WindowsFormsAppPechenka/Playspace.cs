@@ -62,6 +62,7 @@ namespace WindowsFormsAppPechenka
 
         int gamepoints = 0;
         int gametime = 0;
+
         public Playspace()
         {
             InitializeComponent();
@@ -112,6 +113,16 @@ namespace WindowsFormsAppPechenka
             }
         }
 
+        private void _FruitGenerate(int i, int j, int value)
+        {
+            //Если поменять местами i и j то баг исправится
+            var picture = Draw.CreateFigure(value, i, j);
+            picture.Click += new EventHandler(PictureBox_Click);
+            this.Controls.Add(picture);
+            PictureArrfigures[i, j] = picture;
+            picture.Refresh();
+        }
+
         private void NumberVisibl()
         {
             Console.WriteLine("\n");
@@ -143,31 +154,6 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private void _FruitGenerate(int i, int j, int value)
-
-        {
-            //Если поменять местами i и j то баг исправится
-            switch (value)
-            {
-                case 1:
-                    Draw.X(i, j);
-                    break;
-                case 2:
-                    Draw.Circle(i, j);
-                    break;
-                case 3:
-                    Draw.Rectangle(i, j);
-                    break;
-                case 4:
-                    Draw.Triangle(i, j);
-                    break;
-                case 5:
-                    Draw.TriangleReverse(i, j);
-                    break;
-            }
-        }
-
-        
         void moving()
         {
             int counter = 0;
@@ -465,7 +451,7 @@ namespace WindowsFormsAppPechenka
             //this.labelTime.Text = (60 - gametime).ToString();
             //this.labelTime.Refresh();
 
-            if (60 - gametime == 58)
+            if (60 - gametime == 0)
             {
                 Timer.Stop();
                 Timer.Dispose();

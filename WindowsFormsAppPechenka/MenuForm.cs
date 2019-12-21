@@ -17,14 +17,14 @@ namespace WindowsFormsAppPechenka
         private void button1_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            Playspace playspace = new Playspace();
+            var playspace = new Playspace();
             playspace.Show();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            Playspace playspace = new Playspace();
+            var playspace = new Playspace();
             playspace.Show();
         }
     }
