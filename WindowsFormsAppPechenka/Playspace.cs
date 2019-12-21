@@ -23,8 +23,7 @@ namespace WindowsFormsAppPechenka
         int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
         private int countergorizontal = 0;
         private int countervertical = 0;
-        int c = 0;
-        bool a;
+        bool @is;
         //*****
 
         //Можно удалить есть Pic2Position, celladd(ТОЛЬКО ПОМЕНЯЙ СНАЧАЛО)
@@ -53,18 +52,14 @@ namespace WindowsFormsAppPechenka
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
         private readonly Color PicBackColor = Color.FromArgb(255, 240, 240, 240);
 
-        Random r = new Random();//Это чтобы фигруки были всегда разные
+        Random random = new Random();//Это чтобы фигруки были всегда разные
 
         private int _gameSecondsLeft = 60;
-        private const int GameSecondsLeftWhenResultStart =58;
-        
-        
-        Draw draw = new Draw();
+        private const int GameSecondsLeftWhenResultStart = 58;
 
-        int gamepoints = 0;
-        int gametime = 0;
+        int gamepoint = 0;
 
-        private readonly SynchronizationContext syncContext;
+       // private readonly SynchronizationContext syncContext;
         private readonly Timers.Timer _timer;
         private readonly Form _mainForm;
 
@@ -74,9 +69,9 @@ namespace WindowsFormsAppPechenka
             InitializeComponent();
             this.Width = _width + 170;
             this.Height = _height + 35;
-            _MapGenerate();
-            _ArrayGenerate();
-            syncContext = SynchronizationContext.Current;
+            MapGenerate();
+            ArraysGenerate();
+            //syncContext = SynchronizationContext.Current;
 
             _timer = new Timers.Timer
             {
@@ -87,7 +82,7 @@ namespace WindowsFormsAppPechenka
             _timer.Elapsed += TimerTick;
             _timer.Start();
         }
-        private void _MapGenerate()
+        private void MapGenerate()
         {
             for (int i = 0; i <= _width / _sizeOfSides; i++)
             {
@@ -107,20 +102,19 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private void _ArrayGenerate()
+        private void ArraysGenerate()
         {
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    NumberArrfigures[i, j] = r.Next(1, 6);
-                    _FruitGenerate(j, i, NumberArrfigures[i, j]);
-                    //НЕ пойму в чем прикол до сих пор
+                    NumberArrfigures[i, j] = random.Next(1, 6);
+                    FigureGenerate(j, i, NumberArrfigures[i, j]);
                 }
             }
         }
 
-        private void _FruitGenerate(int i, int j, int value)
+        private void FigureGenerate(int i, int j, int value)
         {
             var picture = Draw.CreateFigure(value, i, j);
             picture.Click += new EventHandler(PictureBox_Click);
@@ -203,14 +197,14 @@ namespace WindowsFormsAppPechenka
 
         void CreatNewPictureBox(int y = 0)
         {
-            NumberArrfigures[0, y] = r.Next(1, 6);
-            _FruitGenerate(y, 0, NumberArrfigures[0, y]);
+            NumberArrfigures[0, y] = random.Next(1, 6);
+            FigureGenerate(y, 0, NumberArrfigures[0, y]);
         }
 
         //Проверка на одинаковые элеметы
         private void CheckingForIdenticalElements()
         {
-            a = false;
+            @is = false;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -301,8 +295,8 @@ namespace WindowsFormsAppPechenka
         {
             for (int p = 0; p < counter + 1; p++)
             {
-                gamepoints += 100;
-                labelpoints.Text = gamepoints.ToString();
+                gamepoint += 100;
+                labelpoints.Text = gamepoint.ToString();
                 labelpoints.Refresh();
 
                 int i = sameElements[deletepoint, p];
@@ -318,7 +312,7 @@ namespace WindowsFormsAppPechenka
                     PictureArrfigures[j, i] = null;
                 }
             }
-            a = true;
+            @is = true;
         }
         private void PictureBox_Click(object sender, EventArgs e)
         {
@@ -341,7 +335,7 @@ namespace WindowsFormsAppPechenka
                     moving();
                     CheckingForIdenticalElements();
                 }
-                while (a);
+                while (@is);
             }
         }
         bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
@@ -407,37 +401,17 @@ namespace WindowsFormsAppPechenka
             PictureArrfigures[celladd.X / 40, celladd.Y / 40].Refresh();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ClosePlayspace();
-        }
-
-
-
         public delegate void InvokeDelegate();
 
         private void TimerTick(Object sourse, Timers.ElapsedEventArgs e)
         {
-            
-            //Через такой подходтоже не работает(сначало завершается основной поток потом только время)
             labelTime.BeginInvoke(new InvokeDelegate(InvokeMethod));
-
-
-            //this.labelTime.Text = (60 - gametime).ToString();
-            //this.labelTime.Refresh();
 
             if (_gameSecondsLeft == GameSecondsLeftWhenResultStart)
             {
                 _timer.Stop();
                 _timer.Dispose();
-
                 this.BeginInvoke(new InvokeDelegate(InvokeShowResult));
-                //Как заблокировать или остановить форму
-                //this.Enabled = false;
-
-                //Создать на ней кол-во набранных очков
-                //кнопку в меню, если нажали то закрыть форму игры и окно результатов
-                //Кнопку заново, если нажали то переаапустить форму игры и закрыть окго результатов
             }
             else _gameSecondsLeft--;
         }
@@ -450,9 +424,8 @@ namespace WindowsFormsAppPechenka
 
         public void InvokeShowResult()
         {
-            ResultForm ResultForm = new ResultForm(_mainForm, this);
+            ResultForm ResultForm = new ResultForm(_mainForm, this,gamepoint);
             ResultForm.ShowDialog();
-            ResultForm.Enabled = true;
         }
 
         private void Playspace_FormClosing(object sender, FormClosingEventArgs e)
@@ -470,6 +443,11 @@ namespace WindowsFormsAppPechenka
                 this.Dispose();
             }
             _mainForm.Visible = true;
+        }
+
+        private void ExitToMainFormBotton(object sender, EventArgs e)
+        {
+            ClosePlayspace();
         }
     }
 }
