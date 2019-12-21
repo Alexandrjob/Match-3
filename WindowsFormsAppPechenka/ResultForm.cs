@@ -16,29 +16,33 @@ namespace WindowsFormsAppPechenka
         MenuForm MenuForm = new MenuForm();
         Playspace playspace = new Playspace();
         */
-        public ResultForm()
+        private readonly Form _mainForm;
+        private readonly Form _parent;
+
+        public ResultForm(Form mainForm, Form parent)
         {
+            _mainForm = mainForm;
+            _parent = parent;
             InitializeComponent();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MenuForm MenuForm = new MenuForm();//Ссылачка на меню
-            Playspace playspace = new Playspace();//Ссылачка на игровое пространство
             this.Close();
             this.Dispose();
-            playspace.Close();
-            playspace.Dispose();
-            MenuForm.Visible = true;
+            _parent.Close();
+            _parent.Dispose();
+            _mainForm.Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Playspace playspace = new Playspace();//Ссылачка на игровое пространство
+            Playspace playspace = new Playspace(_mainForm);//Ссылачка на игровое пространство
             this.Close();
             this.Dispose();
-            playspace.Close();
-            playspace.Dispose();
+            _parent.Close();
+            _parent.Dispose();
+            _mainForm.Visible = false;
             playspace.Show();
         }
     }

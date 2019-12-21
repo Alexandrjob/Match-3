@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using System.Timers;
+using Timers = System.Timers;
 using System.Windows.Forms;
 
 namespace WindowsFormsAppPechenka
@@ -55,29 +55,37 @@ namespace WindowsFormsAppPechenka
 
         Random r = new Random();//Это чтобы фигруки были всегда разные
 
-        System.Timers.Timer Timer;
-        MenuForm MenuForm = new MenuForm();//Ссылачка на меню
-        ResultForm ResultForm = new ResultForm();
+        private int _gameSecondsLeft = 60;
+        private const int GameSecondsLeftWhenResultStart =58;
+        
+        
         Draw draw = new Draw();
 
         int gamepoints = 0;
         int gametime = 0;
 
-        public Playspace()
+        private readonly SynchronizationContext syncContext;
+        private readonly Timers.Timer _timer;
+        private readonly Form _mainForm;
+
+        public Playspace(Form mainForm)
         {
+            _mainForm = mainForm;
             InitializeComponent();
             this.Width = _width + 170;
             this.Height = _height + 35;
             _MapGenerate();
             _ArrayGenerate();
+            syncContext = SynchronizationContext.Current;
 
-            Timer = new System.Timers.Timer();
-
-            Timer.AutoReset = true; // Чтобы операции удаления перекрывались
-            Timer.Interval = 1000;
-            Timer.Elapsed += TimerTick;
-            Timer.Enabled = true;
-            Timer.Start();
+            _timer = new Timers.Timer
+            {
+                AutoReset = true, // Чтобы операции удаления перекрывались
+                Interval = 1000,
+                Enabled = true
+            };
+            _timer.Elapsed += TimerTick;
+            _timer.Start();
         }
         private void _MapGenerate()
         {
@@ -101,7 +109,6 @@ namespace WindowsFormsAppPechenka
 
         private void _ArrayGenerate()
         {
-            Random r = new Random();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -115,7 +122,6 @@ namespace WindowsFormsAppPechenka
 
         private void _FruitGenerate(int i, int j, int value)
         {
-            //Если поменять местами i и j то баг исправится
             var picture = Draw.CreateFigure(value, i, j);
             picture.Click += new EventHandler(PictureBox_Click);
             this.Controls.Add(picture);
@@ -123,45 +129,13 @@ namespace WindowsFormsAppPechenka
             picture.Refresh();
         }
 
-        private void NumberVisibl()
-        {
-            Console.WriteLine("\n");
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Console.Write("{0}\t", NumberArrfigures[i, j]);
-                }
-                Console.WriteLine("\n");
-            }
-        }
-
-        private void SameVisibl()
-        {
-            foreach (int add in sameElements)
-            {
-                if (c != 7)
-                {
-                    c++;
-                    Console.Write("{0} ", add);
-                }
-                else
-                {
-                    Console.Write("{0} ", add);
-                    Console.WriteLine("\t");
-                    c = 0;
-                }
-            }
-        }
-
         void moving()
         {
-            int counter = 0;
+            int counter;
             for (int i = 7; i >= 0; i--)
             {
                 for (int j = 0; j < 8; j++)
                 {
-
                     if (NumberArrfigures[i, j] == 0)
                     {
                         counter = 0;
@@ -178,18 +152,22 @@ namespace WindowsFormsAppPechenka
                         //Опускает/создает ячейки со значением на месте пустых
                         for (int h = 0; h < counter; h++)
                         {
+                            InvokeMethod();
                             //Если ячейка 0-го ряда пуста, то генерируется элемент и опускается вниз
                             if (i - counter - h < 0)
                             {
                                 for (int u = 0; u < counter; u++)
                                 {
+                                    if (counter > 4 && u == counter % 2)
+                                    {
+                                        InvokeMethod();
+                                    }
                                     //В случае, когда опускать нечего, мы просто создаем элемент и останавливаем цикл
+                                    CreatNewPictureBox(j);
                                     if (counter - 1 - u == 0)
                                     {
-                                        CreatNewPictureBox(j);
                                         break;
                                     }
-                                    CreatNewPictureBox(j);
                                     Thread.Sleep(100);
                                     NumberArrfigures[i - h - u, j] = NumberArrfigures[0, j];
                                     NumberArrfigures[0, j] = 0;
@@ -364,7 +342,6 @@ namespace WindowsFormsAppPechenka
                     CheckingForIdenticalElements();
                 }
                 while (a);
-                NumberVisibl();
             }
         }
         bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
@@ -432,44 +409,67 @@ namespace WindowsFormsAppPechenka
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Timer.Stop();
-            Timer.Dispose();
-            this.Close();
-            this.Dispose();
-            MenuForm.Visible = true;
+            ClosePlayspace();
         }
 
 
 
         public delegate void InvokeDelegate();
 
-        private void TimerTick(Object sourse, ElapsedEventArgs e)
+        private void TimerTick(Object sourse, Timers.ElapsedEventArgs e)
         {
+            
             //Через такой подходтоже не работает(сначало завершается основной поток потом только время)
             labelTime.BeginInvoke(new InvokeDelegate(InvokeMethod));
+
 
             //this.labelTime.Text = (60 - gametime).ToString();
             //this.labelTime.Refresh();
 
-            if (60 - gametime == 0)
+            if (_gameSecondsLeft == GameSecondsLeftWhenResultStart)
             {
-                Timer.Stop();
-                Timer.Dispose();
+                _timer.Stop();
+                _timer.Dispose();
+
+                this.BeginInvoke(new InvokeDelegate(InvokeShowResult));
                 //Как заблокировать или остановить форму
                 //this.Enabled = false;
 
-                ResultForm.Show();
-                ResultForm.Enabled = true;
                 //Создать на ней кол-во набранных очков
                 //кнопку в меню, если нажали то закрыть форму игры и окно результатов
                 //Кнопку заново, если нажали то переаапустить форму игры и закрыть окго результатов
             }
-            else gametime++;
+            else _gameSecondsLeft--;
         }
 
         public void InvokeMethod()
         {
-            labelTime.Text = (60 - gametime).ToString();
+            labelTime.Text = _gameSecondsLeft.ToString();
+            labelTime.Refresh();
+        }
+
+        public void InvokeShowResult()
+        {
+            ResultForm ResultForm = new ResultForm(_mainForm, this);
+            ResultForm.ShowDialog();
+            ResultForm.Enabled = true;
+        }
+
+        private void Playspace_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ClosePlayspace(false);
+        }
+
+        private void ClosePlayspace(bool isButtonClose = true)
+        {
+            _timer.Stop();
+            _timer.Dispose();
+            if (isButtonClose)
+            {
+                this.Close();
+                this.Dispose();
+            }
+            _mainForm.Visible = true;
         }
     }
 }
