@@ -1,0 +1,8 @@
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\bin\Debug\WindowsFormsPechenka.exe.config
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\bin\Debug\WindowsFormsPechenka.exe
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\bin\Debug\WindowsFormsPechenka.pdb
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\obj\Debug\WindowsFormsPechenka.csprojAssemblyReference.cache
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\obj\Debug\WindowsFormsPechenka.Properties.Resources.resources
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\obj\Debug\WindowsFormsPechenka.csproj.GenerateResource.cache
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\obj\Debug\WindowsFormsPechenka.exe
+C:\Users\Александр\source\repos\WindowsFormsPechenka\WindowsFormsPechenka\obj\Debug\WindowsFormsPechenka.pdb
