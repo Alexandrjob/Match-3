@@ -85,6 +85,7 @@
             this.Controls.Add(this.menu);
             this.Name = "ResultForm";
             this.Text = "ResultForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResuilForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -8,7 +8,7 @@ namespace WindowsFormsAppPechenka
 {
     public partial class Playspace : Form
     {
-        //Тронешь - пристрелю(Для размеров формы и _sizeOfSides для размера ячеек и фигурок)
+        //Для размеров формы и _sizeOfSides для размера ячеек и фигурок
         private readonly int _width = 320;
         private readonly int _height = 320;
         private readonly int _sizeOfSides = 40;
@@ -23,30 +23,25 @@ namespace WindowsFormsAppPechenka
         int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
         private int countergorizontal = 0;
         private int countervertical = 0;
-        bool @is;
-        //*****
-
-        //Можно удалить есть Pic2Position, celladd(ТОЛЬКО ПОМЕНЯЙ СНАЧАЛО)
-        Point Onenumber;
-        Point Twonumber;
+        private bool isfiguresdelete;
         //*****
 
         //Для номеров ячеек, которые меняются местави(Для PictureBox_Click и ReversSwapElements)
-        private Point celladd;
-        Point Pic2Position;
+        private Point locationfirstfigure;
+        private Point locationsecondfigure;
         //*****
 
         //Для красивых фигурок, которые мы меняем местами
-        PictureBox picturebox1 = null;
-        PictureBox picturebox2 = null;
+        PictureBox picturebox1;
+        PictureBox picturebox2;
         //*****
 
         //Для первого Picturebox, который выделился(необходим для проверок и метода пузырька в PictureBox_Click)
-        private PictureBox picBox = null;
+        private PictureBox firstcelectedfigure;
         //*****
 
         //Для числа содержашегося в массиве NumberArrfigures
-        private int cellNumArr = 0;
+        private int valuearrayfirstfigure;
         //*****
 
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
@@ -57,7 +52,7 @@ namespace WindowsFormsAppPechenka
         private int _gameSecondsLeft = 60;
         private const int GameSecondsLeftWhenResultStart = 58;
 
-        int gamepoint = 0;
+        private int gamepoint = 0;
 
        // private readonly SynchronizationContext syncContext;
         private readonly Timers.Timer _timer;
@@ -71,7 +66,6 @@ namespace WindowsFormsAppPechenka
             this.Height = _height + 35;
             MapGenerate();
             ArraysGenerate();
-            //syncContext = SynchronizationContext.Current;
 
             _timer = new Timers.Timer
             {
@@ -162,7 +156,6 @@ namespace WindowsFormsAppPechenka
                                     {
                                         break;
                                     }
-                                    Thread.Sleep(100);
                                     NumberArrfigures[i - h - u, j] = NumberArrfigures[0, j];
                                     NumberArrfigures[0, j] = 0;
 
@@ -204,7 +197,7 @@ namespace WindowsFormsAppPechenka
         //Проверка на одинаковые элеметы
         private void CheckingForIdenticalElements()
         {
-            @is = false;
+            isfiguresdelete = false;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -312,76 +305,72 @@ namespace WindowsFormsAppPechenka
                     PictureArrfigures[j, i] = null;
                 }
             }
-            @is = true;
+            isfiguresdelete = true;
         }
         private void PictureBox_Click(object sender, EventArgs e)
         {
             if (SwapElements(sender))
             {
                 CheckingForIdenticalElements();
-                if (NumberArrfigures[Onenumber.Y / 40, Onenumber.X / 40] != 0 & NumberArrfigures[Twonumber.Y / 40, Twonumber.X / 40] != 0)
+                if (NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40] != 0 & NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40] != 0)
                 {
                     Thread.Sleep(150);
                     ReversSwapElements();
                 }
                 picturebox1 = null;
                 picturebox2 = null;
-                Pic2Position = new Point(0, 0);
-                celladd = new Point(0, 0);
-                picBox = null;
-                cellNumArr = 0;
+                locationfirstfigure = new Point(0, 0);
+                locationsecondfigure = new Point(0, 0);
+                firstcelectedfigure = null;
+                valuearrayfirstfigure = 0;
                 do
                 {
                     moving();
                     CheckingForIdenticalElements();
                 }
-                while (@is);
+                while (isfiguresdelete);
             }
         }
         bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
         {
-            if (picBox == null)
+            if (firstcelectedfigure == null)
             {
-                picBox = (sender as PictureBox);
-                celladd = picBox.Location;
+                firstcelectedfigure = (sender as PictureBox);
+                locationfirstfigure = firstcelectedfigure.Location;
 
-                cellNumArr = NumberArrfigures[celladd.Y / 40, celladd.X / 40];
-
-                (picBox as PictureBox).BackColor = Color.FromArgb(40, 0, 0, 0);
+                valuearrayfirstfigure = NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40];
+                firstcelectedfigure.BackColor = Color.FromArgb(40, 0, 0, 0);
                 return false;
             }
             else
             {
                 //После проверки исключает варианты, где фигуры расположены не рядом друг с другом |(или) находятся в углу от первой фигуры |(или) клик проихошел по одной фигуре
-                if ((Math.Abs(picBox.Location.X - (sender as PictureBox).Location.X) > 40 | Math.Abs(picBox.Location.Y - (sender as PictureBox).Location.Y) > 40) |
-                    (Math.Abs(picBox.Location.Y - (sender as PictureBox).Location.Y) == 40 & Math.Abs(picBox.Location.X - (sender as PictureBox).Location.X) == 40) |
-                    ((sender as PictureBox).Location == picBox.Location))
+                if ((Math.Abs(firstcelectedfigure.Location.X - (sender as PictureBox).Location.X) > 40 | Math.Abs(firstcelectedfigure.Location.Y - (sender as PictureBox).Location.Y) > 40) |
+                    (Math.Abs(firstcelectedfigure.Location.Y - (sender as PictureBox).Location.Y) == 40 & Math.Abs(firstcelectedfigure.Location.X - (sender as PictureBox).Location.X) == 40) |
+                    ((sender as PictureBox).Location == firstcelectedfigure.Location))
                 {
-                    picBox.BackColor = PicBackColor;
-                    picBox = null;
+                    firstcelectedfigure.BackColor = PicBackColor;
+                    firstcelectedfigure = null;
                     return false;
                 }
                 else //Происходит замена в массивах NumberArrfigures и PictureArrfigures и замена Location у обоих PictureBox'ов 
                 {
-                    Pic2Position = (sender as PictureBox).Location;
+                    locationsecondfigure = (sender as PictureBox).Location;
 
-                    Onenumber = new Point(celladd.X, celladd.Y);
-                    Twonumber = new Point(Pic2Position.X, Pic2Position.Y);
+                    NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40] = NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40];
+                    NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40] = valuearrayfirstfigure;
 
-                    NumberArrfigures[celladd.Y / 40, celladd.X / 40] = NumberArrfigures[Pic2Position.Y / 40, Pic2Position.X / 40];
-                    NumberArrfigures[Pic2Position.Y / 40, Pic2Position.X / 40] = cellNumArr;
+                    picturebox1 = PictureArrfigures[locationfirstfigure.X / 40, locationfirstfigure.Y / 40];
+                    picturebox2 = PictureArrfigures[locationsecondfigure.X / 40, locationsecondfigure.Y / 40];
+                    picturebox1.Location = new Point(locationsecondfigure.X, locationsecondfigure.Y);
+                    picturebox2.Location = new Point(locationfirstfigure.X, locationfirstfigure.Y);
 
-                    picturebox1 = PictureArrfigures[celladd.X / 40, celladd.Y / 40];
-                    picturebox2 = PictureArrfigures[Pic2Position.X / 40, Pic2Position.Y / 40];
-                    picturebox1.Location = new Point(Pic2Position.X, Pic2Position.Y);
-                    picturebox2.Location = new Point(celladd.X, celladd.Y);
+                    PictureArrfigures[locationsecondfigure.X / 40, locationsecondfigure.Y / 40] = picturebox1;
+                    PictureArrfigures[locationfirstfigure.X / 40, locationfirstfigure.Y / 40] = picturebox2;
 
-                    PictureArrfigures[Pic2Position.X / 40, Pic2Position.Y / 40] = picturebox1;
-                    PictureArrfigures[celladd.X / 40, celladd.Y / 40] = picturebox2;
-
-                    picBox.BackColor = PicBackColor;
-                    PictureArrfigures[Pic2Position.X / 40, Pic2Position.Y / 40].Refresh();
-                    PictureArrfigures[celladd.X / 40, celladd.Y / 40].Refresh();
+                    firstcelectedfigure.BackColor = PicBackColor;
+                    PictureArrfigures[locationsecondfigure.X / 40, locationsecondfigure.Y / 40].Refresh();
+                    PictureArrfigures[locationfirstfigure.X / 40, locationfirstfigure.Y / 40].Refresh();
                     return true;
                 }
             }
@@ -389,16 +378,16 @@ namespace WindowsFormsAppPechenka
 
         void ReversSwapElements()
         {
-            cellNumArr = NumberArrfigures[celladd.Y / 40, celladd.X / 40];
-            NumberArrfigures[celladd.Y / 40, celladd.X / 40] = NumberArrfigures[Pic2Position.Y / 40, Pic2Position.X / 40];
-            NumberArrfigures[Pic2Position.Y / 40, Pic2Position.X / 40] = cellNumArr;
+            valuearrayfirstfigure = NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40];
+            NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40] = NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40];
+            NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40] = valuearrayfirstfigure;
 
-            picturebox1.Location = new Point(celladd.X, celladd.Y);
-            picturebox2.Location = new Point(Pic2Position.X, Pic2Position.Y);
-            PictureArrfigures[Pic2Position.X / 40, Pic2Position.Y / 40] = picturebox2;
-            PictureArrfigures[celladd.X / 40, celladd.Y / 40] = picturebox1;
-            PictureArrfigures[Pic2Position.X / 40, Pic2Position.Y / 40].Refresh();
-            PictureArrfigures[celladd.X / 40, celladd.Y / 40].Refresh();
+            picturebox1.Location = new Point(locationfirstfigure.X, locationfirstfigure.Y);
+            picturebox2.Location = new Point(locationsecondfigure.X, locationsecondfigure.Y);
+            PictureArrfigures[locationsecondfigure.X / 40, locationsecondfigure.Y / 40] = picturebox2;
+            PictureArrfigures[locationfirstfigure.X / 40, locationfirstfigure.Y / 40] = picturebox1;
+            PictureArrfigures[locationsecondfigure.X / 40, locationsecondfigure.Y / 40].Refresh();
+            PictureArrfigures[locationfirstfigure.X / 40, locationfirstfigure.Y / 40].Refresh();
         }
 
         public delegate void InvokeDelegate();
