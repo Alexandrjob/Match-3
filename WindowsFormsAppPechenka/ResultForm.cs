@@ -12,8 +12,6 @@ namespace WindowsFormsAppPechenka
 {
     public partial class ResultForm : Form
     {
-        bool isBottonAgain;
-
         private readonly Form _mainForm;
         private readonly Form _parent;
 
@@ -27,19 +25,19 @@ namespace WindowsFormsAppPechenka
 
         private void GameAgainButton(object sender, EventArgs e)
         {
-            Playspace playspace = new Playspace(_mainForm);//Ссылачка на игровое пространство
+            PlayForm playspace = new PlayForm(_mainForm);//Ссылачка на игровое пространство
             CloseResultForm(true);
-            //_mainForm.Visible = false;
+            _mainForm.Visible = false;
             playspace.Show();
         }
 
         private void ExitToMainFormButton(object sender, EventArgs e)
         {
-            CloseResultForm();
+            CloseResultForm(true);
         }
-        private void CloseResultForm(bool isBottonAgain = false)
+        private void CloseResultForm(bool isBottonClick = false)
         {
-            if (isBottonAgain)
+            if (isBottonClick)
             {    
                 this.Close();
                 this.Dispose(); 

@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsAppPechenka
 {
-    partial class Playspace
+    partial class PlayForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,9 +30,9 @@
         {
             this.ExitToMainForm = new System.Windows.Forms.Button();
             this.labelTime = new System.Windows.Forms.Label();
-            this.labelpoints = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            labelgamepoint = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ExitToMainForm
@@ -56,16 +56,6 @@
             this.labelTime.TabIndex = 1;
             this.labelTime.Text = "60";
             // 
-            // labelpoints
-            // 
-            this.labelpoints.AutoSize = true;
-            this.labelpoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelpoints.Location = new System.Drawing.Point(499, 126);
-            this.labelpoints.Name = "labelpoints";
-            this.labelpoints.Size = new System.Drawing.Size(31, 33);
-            this.labelpoints.TabIndex = 2;
-            this.labelpoints.Text = "0";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -84,18 +74,28 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Колиество очков";
             // 
-            // Playspace
+            // labelgamepoint
+            // 
+            labelgamepoint.AutoSize = true;
+            labelgamepoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            labelgamepoint.Location = new System.Drawing.Point(500, 128);
+            labelgamepoint.Name = "labelgamepoint";
+            labelgamepoint.Size = new System.Drawing.Size(27, 29);
+            labelgamepoint.TabIndex = 5;
+            labelgamepoint.Text = "0";
+            // 
+            // PlayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 313);
+            this.Controls.Add(labelgamepoint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.labelpoints);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.ExitToMainForm);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Playspace";
+            this.Name = "PlayForm";
             this.Text = "Match - 3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Playspace_FormClosing);
             this.ResumeLayout(false);
@@ -107,8 +107,9 @@
 
         private System.Windows.Forms.Button ExitToMainForm;
         private System.Windows.Forms.Label labelTime;
-        private System.Windows.Forms.Label labelpoints;
+        public static System.Windows.Forms.Label labelpoints;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        public static System.Windows.Forms.Label labelgamepoint;
     }
 }

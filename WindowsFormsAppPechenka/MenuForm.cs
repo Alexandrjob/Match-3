@@ -28,7 +28,7 @@ namespace WindowsFormsAppPechenka
         private void StartGame()
         {
             this.Visible = false;
-            var playspace = new Playspace(this);
+            var playspace = new PlayForm(this);
             playspace.Show();
         }
     }

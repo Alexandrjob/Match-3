@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsAppPechenka
 {
-    public partial class Playspace : Form
+    public partial class PlayForm : Form
     {
         //Для размеров формы и _sizeOfSides для размера ячеек и фигурок
         private readonly int _width = 320;
@@ -15,15 +15,11 @@ namespace WindowsFormsAppPechenka
         //*****
 
         //Любимые массивы(В них хранятся фигурки и их номера)
-        PictureBox[,] PictureArrfigures = new PictureBox[8, 8];
-        int[,] NumberArrfigures = new int[8, 8];
+        public static PictureBox[,] PictureArrfigures = new PictureBox[8, 8];
+        public static int[,] NumberArrfigures = new int[8, 8];
         //*****
 
-        //Для работы двух методов  CheckingForIdenticalElements и DeleteElements
-        int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
-        private int countergorizontal = 0;
-        private int countervertical = 0;
-        private bool isfiguresdelete;
+        public static bool isfiguresdelete;
         //*****
 
         //Для номеров ячеек, которые меняются местави(Для PictureBox_Click и ReversSwapElements)
@@ -32,8 +28,8 @@ namespace WindowsFormsAppPechenka
         //*****
 
         //Для красивых фигурок, которые мы меняем местами
-        PictureBox picturebox1;
-        PictureBox picturebox2;
+        private PictureBox picturebox1;
+        private PictureBox picturebox2;
         //*****
 
         //Для первого Picturebox, который выделился(необходим для проверок и метода пузырька в PictureBox_Click)
@@ -50,15 +46,13 @@ namespace WindowsFormsAppPechenka
         Random random = new Random();//Это чтобы фигруки были всегда разные
 
         private int _gameSecondsLeft = 60;
-        private const int GameSecondsLeftWhenResultStart = 58;
-
-        private int gamepoint = 0;
-
-       // private readonly SynchronizationContext syncContext;
+        private const int GameSecondsLeftWhenResultStart = 0;
+        
         private readonly Timers.Timer _timer;
         private readonly Form _mainForm;
+        public static readonly Thread Thread;
 
-        public Playspace(Form mainForm)
+        public PlayForm(Form mainForm)
         {
             _mainForm = mainForm;
             InitializeComponent();
@@ -69,7 +63,7 @@ namespace WindowsFormsAppPechenka
 
             _timer = new Timers.Timer
             {
-                AutoReset = true, // Чтобы операции удаления перекрывались
+                AutoReset = true,
                 Interval = 1000,
                 Enabled = true
             };
@@ -194,124 +188,11 @@ namespace WindowsFormsAppPechenka
             FigureGenerate(y, 0, NumberArrfigures[0, y]);
         }
 
-        //Проверка на одинаковые элеметы
-        private void CheckingForIdenticalElements()
-        {
-            isfiguresdelete = false;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-
-                    CheckGorizontal(i, j);
-                    CheckVertical(i, j);
-                }
-                //Обязательный код, при котором удаляются элементы граничащиеся с одним из краев
-                if (countergorizontal >= 2)
-                {
-                    DeleteElements(countergorizontal, 0);
-                }
-                if (countervertical >= 2)
-                {
-                    DeleteElements(countervertical, 2);
-                }
-                Array.Clear(sameElements, 0, 32);
-                countervertical = 0;
-                countergorizontal = 0;
-            }
-        }
-
-        void CheckGorizontal(int i, int j)
-        {
-            if (NumberArrfigures[i, j] == NumberArrfigures[i, j + 1] & NumberArrfigures[i, j] != 0)
-            {
-                if (countergorizontal == 0)
-                {
-                    sameElements[0, countergorizontal] = i;
-                    sameElements[1, countergorizontal] = j;
-
-                    sameElements[0, countergorizontal + 1] = i;
-                    sameElements[1, countergorizontal + 1] = j + 1;
-                }
-                else
-                {
-                    sameElements[0, countergorizontal + 1] = i;
-                    sameElements[1, countergorizontal + 1] = j + 1;
-                }
-                countergorizontal++;
-            }
-            else if (countergorizontal >= 2)
-            {
-                DeleteElements(countergorizontal, 0);
-                Array.Clear(sameElements, 0, 16);
-                countergorizontal = 0;
-            }
-            else
-            {
-                Array.Clear(sameElements, 0, 16);
-                countergorizontal = 0;
-            }
-        }
-        void CheckVertical(int i, int j)
-        {
-            if (NumberArrfigures[j, i] == NumberArrfigures[j + 1, i] & NumberArrfigures[j, i] != 0)
-            {
-                if (countervertical == 0)
-                {
-                    sameElements[2, countervertical] = j;
-                    sameElements[3, countervertical] = i;
-
-                    sameElements[2, countervertical + 1] = j + 1;
-                    sameElements[3, countervertical + 1] = i;
-                }
-                else
-                {
-                    sameElements[2, countervertical + 1] = j + 1;
-                    sameElements[3, countervertical + 1] = i;
-                }
-                countervertical++;
-            }
-            else if (countervertical >= 2)
-            {
-                DeleteElements(countervertical, 2);
-                Array.Clear(sameElements, 16, 16);
-                countervertical = 0;
-            }
-            else
-            {
-                Array.Clear(sameElements, 16, 16);
-                countervertical = 0;
-            }
-        }
-
-        void DeleteElements(int counter, int deletepoint)
-        {
-            for (int p = 0; p < counter + 1; p++)
-            {
-                gamepoint += 100;
-                labelpoints.Text = gamepoint.ToString();
-                labelpoints.Refresh();
-
-                int i = sameElements[deletepoint, p];
-                int j = sameElements[deletepoint + 1, p];
-                NumberArrfigures[i, j] = 0;
-                if (PictureArrfigures[j, i] != null)
-                {
-
-                    PictureArrfigures[j, i].BackColor = Color.Aqua;
-                    PictureArrfigures[j, i].Refresh();
-                    Thread.Sleep(80);
-                    PictureArrfigures[j, i].Dispose();
-                    PictureArrfigures[j, i] = null;
-                }
-            }
-            isfiguresdelete = true;
-        }
         private void PictureBox_Click(object sender, EventArgs e)
         {
             if (SwapElements(sender))
             {
-                CheckingForIdenticalElements();
+                CheckAndDeletefigure.CheckingForIdenticalElements();
                 if (NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40] != 0 & NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40] != 0)
                 {
                     Thread.Sleep(150);
@@ -326,11 +207,12 @@ namespace WindowsFormsAppPechenka
                 do
                 {
                     moving();
-                    CheckingForIdenticalElements();
+                    CheckAndDeletefigure.CheckingForIdenticalElements();
                 }
                 while (isfiguresdelete);
             }
         }
+
         bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
         {
             if (firstcelectedfigure == null)
@@ -413,7 +295,7 @@ namespace WindowsFormsAppPechenka
 
         public void InvokeShowResult()
         {
-            ResultForm ResultForm = new ResultForm(_mainForm, this,gamepoint);
+            ResultForm ResultForm = new ResultForm(_mainForm, this,CheckAndDeletefigure.gamepoint);
             ResultForm.ShowDialog();
         }
 
