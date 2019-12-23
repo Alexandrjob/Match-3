@@ -192,7 +192,7 @@ namespace WindowsFormsAppPechenka
         {
             if (SwapElements(sender))
             {
-                CheckAndDeletefigure.CheckingForIdenticalElements();
+                InteractionWitchFigure.CheckingForIdenticalElements();
                 if (NumberArrfigures[locationfirstfigure.Y / 40, locationfirstfigure.X / 40] != 0 & NumberArrfigures[locationsecondfigure.Y / 40, locationsecondfigure.X / 40] != 0)
                 {
                     Thread.Sleep(150);
@@ -207,7 +207,7 @@ namespace WindowsFormsAppPechenka
                 do
                 {
                     moving();
-                    CheckAndDeletefigure.CheckingForIdenticalElements();
+                    InteractionWitchFigure.CheckingForIdenticalElements();
                 }
                 while (isfiguresdelete);
             }
@@ -295,7 +295,7 @@ namespace WindowsFormsAppPechenka
 
         public void InvokeShowResult()
         {
-            ResultForm ResultForm = new ResultForm(_mainForm, this,CheckAndDeletefigure.gamepoint);
+            ResultForm ResultForm = new ResultForm(_mainForm, this,InteractionWitchFigure.gamepoint);
             ResultForm.ShowDialog();
         }
 
