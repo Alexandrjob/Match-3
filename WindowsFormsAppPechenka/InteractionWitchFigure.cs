@@ -7,13 +7,15 @@ namespace WindowsFormsAppPechenka
     static class InteractionWitchFigure
     {
         public static int gamepoint;
-        static int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
-        static int countergorizontal = 0;
-        static int countervertical = 0;
+        public static bool isfiguresdelete;
+
+        private static int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
+        private static int countergorizontal = 0;
+        private static int countervertical = 0;
 
         public static void CheckingForIdenticalElements()
         {
-            PlayForm.isfiguresdelete = false;
+            isfiguresdelete = false;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -116,12 +118,12 @@ namespace WindowsFormsAppPechenka
                 {
                     PlayForm.PictureArrfigures[j, i].BackColor = Color.Aqua;
                     PlayForm.PictureArrfigures[j, i].Refresh();
-                    Thread.Sleep(40);
+                    Thread.Sleep(50);
                     PlayForm.PictureArrfigures[j, i].Dispose();
                     PlayForm.PictureArrfigures[j, i] = null;
                 }
             }
-            PlayForm.isfiguresdelete = true;
+            isfiguresdelete = true;
         }
 
     }

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsAppPechenka
@@ -15,7 +8,7 @@ namespace WindowsFormsAppPechenka
         private readonly Form _mainForm;
         private readonly Form _parent;
 
-        public ResultForm(Form mainForm, Form parent,int gamepoint)
+        public ResultForm(Form mainForm, Form parent, int gamepoint)
         {
             InitializeComponent();
             _mainForm = mainForm;
@@ -38,9 +31,9 @@ namespace WindowsFormsAppPechenka
         private void CloseResultForm(bool isBottonClick = false)
         {
             if (isBottonClick)
-            {    
+            {
                 this.Close();
-                this.Dispose(); 
+                this.Dispose();
             }
             //Из за того, что закрывается Playspace обрабатывается событие в Playspace, которое показывает форму
             _parent.Close();
