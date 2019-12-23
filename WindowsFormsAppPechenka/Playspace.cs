@@ -169,10 +169,9 @@ namespace WindowsFormsAppPechenka
 
         private void PictureBox_Click(object sender, EventArgs e)
         {
-           elements.bla(sender);
+           elements.Click(sender);
         }
 
-        
         public delegate void InvokeDelegate();
 
         private void TimerTick(Object sourse, Timers.ElapsedEventArgs e)

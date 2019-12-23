@@ -26,11 +26,13 @@ namespace WindowsFormsAppPechenka
         
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
         private readonly Color PicBackColor = Color.FromArgb(255, 240, 240, 240);
+
         public Elements(PlayForm playForm)
         {
             PlayForm = playForm;
         }
-        public void bla(object sender)
+
+        public void Click(object sender)
         {
             if (SwapElements(sender))
             {
