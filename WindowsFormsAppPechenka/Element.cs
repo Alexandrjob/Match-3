@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsAppPechenka
 {
-    public class Elements
+    public class Element
     {
-        //Для номеров ячеек, которые меняются местави(Для PictureBox_Click и ReversSwapElements)
+        //Для номеров ячеек, которые меняются местави
         private Point firstlocationfigure;
         private Point secondlocationfigure;
 
@@ -15,7 +15,7 @@ namespace WindowsFormsAppPechenka
         private PictureBox picturebox1;
         private PictureBox picturebox2;
 
-        //Для первого Picturebox, который выделился(необходим для проверок и метода пузырька в PictureBox_Click)
+        //Для первого Picturebox, который выделился
         private PictureBox firstcelectedfigure;
 
         //Для числа содержашегося в массиве NumberArrfigures
@@ -27,7 +27,7 @@ namespace WindowsFormsAppPechenka
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
         private readonly Color PicBackColor = Color.FromArgb(255, 240, 240, 240);
 
-        public Elements(PlayForm playForm)
+        public Element(PlayForm playForm)
         {
             PlayForm = playForm;
         }

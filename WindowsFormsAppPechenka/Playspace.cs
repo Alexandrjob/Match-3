@@ -12,14 +12,13 @@ namespace WindowsFormsAppPechenka
         private readonly int _width = 320;
         private readonly int _height = 320;
         private readonly int _sizeOfSides = 40;
-        //*****
 
         //Любимые массивы(В них хранятся фигурки и их номера)
         public static PictureBox[,] PictureArrfigures = new PictureBox[8, 8];
         public static int[,] NumberArrfigures = new int[8, 8];
 
-        //*****
-        readonly Random random = new Random();//Это чтобы фигруки были всегда разные
+        //Это чтобы фигруки были всегда разные
+        readonly Random random = new Random();
 
         private int _gameSecondsLeft = 60;
         private const int GameSecondsLeftWhenResultStart = 0;
@@ -27,13 +26,12 @@ namespace WindowsFormsAppPechenka
         private readonly Timers.Timer _timer;
         private readonly Form _mainForm;
         public static readonly Thread Thread;
-        private readonly Elements elements;
-        //readonly Elements elements = new Elements();
+        private readonly Element Elements;
 
         public PlayForm(Form mainForm)
         {
             _mainForm = mainForm;
-            elements = new Elements(this);
+            Elements = new Element(this);
             InitializeComponent();
             this.Width = _width + 170;
             this.Height = _height + 35;
@@ -169,8 +167,9 @@ namespace WindowsFormsAppPechenka
 
         private void PictureBox_Click(object sender, EventArgs e)
         {
-           elements.Click(sender);
+           Elements.Click(sender);
         }
+
 
         public delegate void InvokeDelegate();
 
@@ -198,6 +197,7 @@ namespace WindowsFormsAppPechenka
             ResultForm ResultForm = new ResultForm(_mainForm, this, InteractionWitchFigure.gamepoint);
             ResultForm.ShowDialog();
         }
+
 
         private void Playspace_FormClosing(object sender, FormClosingEventArgs e)
         {

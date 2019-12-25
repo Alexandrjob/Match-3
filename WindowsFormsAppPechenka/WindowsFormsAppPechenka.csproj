@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elements.cs" />
+    <Compile Include="Element.cs" />
     <Compile Include="InteractionWitchFigure.cs" />
     <Compile Include="Draw.cs" />
     <Compile Include="MenuForm.cs">
