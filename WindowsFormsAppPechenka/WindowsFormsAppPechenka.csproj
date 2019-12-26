@@ -56,11 +56,11 @@
     <Compile Include="MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Playspace.cs">
+    <Compile Include="PlayForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Playspace.Designer.cs">
-      <DependentUpon>Playspace.cs</DependentUpon>
+    <Compile Include="PlayForm.Designer.cs">
+      <DependentUpon>PlayForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ResultForm.cs">
       <SubType>Form</SubType>
@@ -73,8 +73,8 @@
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Playspace.resx">
-      <DependentUpon>Playspace.cs</DependentUpon>
+    <EmbeddedResource Include="PlayForm.resx">
+      <DependentUpon>PlayForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResultForm.resx">
       <DependentUpon>ResultForm.cs</DependentUpon>

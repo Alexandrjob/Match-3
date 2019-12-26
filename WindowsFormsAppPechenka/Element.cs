@@ -22,10 +22,10 @@ namespace WindowsFormsAppPechenka
         private int valuearrayfirstfigure;
 
         private readonly PlayForm PlayForm;
-        //private readonly InteractionWitchFigure Figure;
         
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
         private readonly Color PicBackColor = Color.FromArgb(255, 240, 240, 240);
+        InteractionWitchFigure Interaction = new InteractionWitchFigure();
 
         public Element(PlayForm playForm)
         {
@@ -36,7 +36,7 @@ namespace WindowsFormsAppPechenka
         {
             if (SwapElements(sender))
             {
-                InteractionWitchFigure.CheckingForIdenticalElements();
+                Interaction.CheckingForIdenticalElements();
                 if (PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] != 0 & PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] != 0)
                 {
                     Thread.Sleep(150);
@@ -51,12 +51,12 @@ namespace WindowsFormsAppPechenka
                 do
                 {
                     PlayForm.moving();
-                    InteractionWitchFigure.CheckingForIdenticalElements();
+                    Interaction.CheckingForIdenticalElements();
                 }
-                while (InteractionWitchFigure.isfiguresdelete);
+                while (Interaction.isfiguresdelete);
             }
         }
-        bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
+        private bool SwapElements(object sender)  //Метод меняющий местами 2 элемента
         {
             if (firstcelectedfigure == null)
             {
@@ -102,7 +102,7 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        void ReversSwapElements()
+        private void ReversSwapElements()
         {
             //Когда уже элементы перемешены, это оказывается 2 элемент
             valuearrayfirstfigure = PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40];

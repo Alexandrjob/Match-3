@@ -4,16 +4,16 @@ using System.Threading;
 
 namespace WindowsFormsAppPechenka
 {
-    static class InteractionWitchFigure
+    class InteractionWitchFigure
     {
         public static int gamepoint;
-        public static bool isfiguresdelete;
+        public bool isfiguresdelete;
 
-        private static int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
-        private static int countergorizontal = 0;
-        private static int countervertical = 0;
+        private int[,] sameElements = new int[4, 8];//массив для номерков фигурок для их удаления
+        private int countergorizontal = 0;
+        private int countervertical = 0;
 
-        public static void CheckingForIdenticalElements()
+        public void CheckingForIdenticalElements()
         {
             isfiguresdelete = false;
             for (int i = 0; i < 8; i++)
@@ -39,7 +39,7 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private static void CheckGorizontal(int i, int j)
+        private void CheckGorizontal(int i, int j)
         {
             if (PlayForm.NumberArrfigures[i, j] == PlayForm.NumberArrfigures[i, j + 1] & PlayForm.NumberArrfigures[i, j] != 0)
             {
@@ -71,7 +71,7 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private static void CheckVertical(int i, int j)
+        private void CheckVertical(int i, int j)
         {
             if (PlayForm.NumberArrfigures[j, i] == PlayForm.NumberArrfigures[j + 1, i] & PlayForm.NumberArrfigures[j, i] != 0)
             {
@@ -103,7 +103,7 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private static void DeleteElement(int counter, int deletepoint)
+        private void DeleteElement(int counter, int deletepoint)
         {
             for (int p = 0; p < counter + 1; p++)
             {

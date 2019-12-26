@@ -8,26 +8,25 @@ namespace WindowsFormsAppPechenka
 {
     public partial class PlayForm : Form
     {
-        //Для размеров формы и _sizeOfSides для размера ячеек и фигурок
+        //Для размеров формы и _sizeOfSides для размера ячеек и фигурок 
         private readonly int _width = 320;
         private readonly int _height = 320;
         private readonly int _sizeOfSides = 40;
+        //Это чтобы фигруки были всегда разные
+        private readonly Random random = new Random();
 
         //Любимые массивы(В них хранятся фигурки и их номера)
         public static PictureBox[,] PictureArrfigures = new PictureBox[8, 8];
         public static int[,] NumberArrfigures = new int[8, 8];
 
-        //Это чтобы фигруки были всегда разные
-        readonly Random random = new Random();
-
         private int _gameSecondsLeft = 60;
         private const int GameSecondsLeftWhenResultStart = 0;
 
+        public static readonly Thread Thread;
         private readonly Timers.Timer _timer;
         private readonly Form _mainForm;
-        public static readonly Thread Thread;
         private readonly Element Elements;
-
+        
         public PlayForm(Form mainForm)
         {
             _mainForm = mainForm;
@@ -37,7 +36,7 @@ namespace WindowsFormsAppPechenka
             this.Height = _height + 35;
             MapGenerate();
             ArraysGenerate();
-
+            
             _timer = new Timers.Timer
             {
                 AutoReset = true,
