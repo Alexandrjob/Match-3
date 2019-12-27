@@ -12,31 +12,30 @@ namespace WindowsFormsAppPechenka
         private readonly int _width = 320;
         private readonly int _height = 320;
         private readonly int _sizeOfSides = 40;
-        //Это чтобы фигруки были всегда разные
         private readonly Random random = new Random();
-
-        //Любимые массивы(В них хранятся фигурки и их номера)
-        public static PictureBox[,] PictureArrfigures = new PictureBox[8, 8];
-        public static int[,] NumberArrfigures = new int[8, 8];
 
         private int _gameSecondsLeft = 60;
         private const int GameSecondsLeftWhenResultStart = 0;
 
         public static readonly Thread Thread;
         private readonly Timers.Timer _timer;
+
         private readonly Form _mainForm;
         private readonly Element Elements;
-        
+        private readonly FigureDataBase FigureDataBase;
+
         public PlayForm(Form mainForm)
         {
             _mainForm = mainForm;
-            Elements = new Element(this);
+            FigureDataBase = new FigureDataBase(this);
+            Elements = new Element(this, FigureDataBase);
+
             InitializeComponent();
             this.Width = _width + 170;
             this.Height = _height + 35;
             MapGenerate();
-            ArraysGenerate();
-            
+            FigureDataBase.ArraysGenerate();
+
             _timer = new Timers.Timer
             {
                 AutoReset = true,
@@ -66,27 +65,6 @@ namespace WindowsFormsAppPechenka
             }
         }
 
-        private void ArraysGenerate()
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    NumberArrfigures[i, j] = random.Next(1, 6);
-                    FigureGenerate(j, i, NumberArrfigures[i, j]);
-                }
-            }
-        }
-
-        private void FigureGenerate(int i, int j, int value)
-        {
-            var picture = Draw.CreateFigure(value, i, j);
-            picture.Click += new EventHandler(PictureBox_Click);
-            this.Controls.Add(picture);
-            PictureArrfigures[i, j] = picture;
-            picture.Refresh();
-        }
-
         public void moving()
         {
             int counter;
@@ -94,11 +72,11 @@ namespace WindowsFormsAppPechenka
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (NumberArrfigures[i, j] == 0)
+                    if (FigureDataBase.NumberArrfigures[i, j] == 0)
                     {
                         counter = 0;
                         //Считает последовательно идущие пустые ячейки
-                        while (NumberArrfigures[i - counter, j] == 0)
+                        while (FigureDataBase.NumberArrfigures[i - counter, j] == 0)
                         {
                             //Тут не считает элемент на пересечении двух линий нулей
                             counter++;
@@ -126,31 +104,31 @@ namespace WindowsFormsAppPechenka
                                     {
                                         break;
                                     }
-                                    NumberArrfigures[i - h - u, j] = NumberArrfigures[0, j];
-                                    NumberArrfigures[0, j] = 0;
+                                    FigureDataBase.NumberArrfigures[i - h - u, j] = FigureDataBase.NumberArrfigures[0, j];
+                                    FigureDataBase.NumberArrfigures[0, j] = 0;
 
-                                    PictureBox picturebox = PictureArrfigures[j, 0];
-                                    PictureArrfigures[j, 0] = null;
+                                    PictureBox picturebox = FigureDataBase.PictureArrfigures[j, 0];
+                                    FigureDataBase.PictureArrfigures[j, 0] = null;
                                     picturebox.Location = new Point(j * 40, (i - h - u) * 40);
                                     Thread.Sleep(60);
-                                    PictureArrfigures[j, i - h - u] = picturebox;
+                                    FigureDataBase.PictureArrfigures[j, i - h - u] = picturebox;
                                 }
                                 break;
                             }
                             //Опускает
                             else
                             {
-                                if (NumberArrfigures[i - counter - h, j] == 0) continue;
+                                if (FigureDataBase.NumberArrfigures[i - counter - h, j] == 0) continue;
 
-                                NumberArrfigures[i - h, j] = NumberArrfigures[i - counter - h, j];
-                                NumberArrfigures[i - counter - h, j] = 0;
+                                FigureDataBase.NumberArrfigures[i - h, j] = FigureDataBase.NumberArrfigures[i - counter - h, j];
+                                FigureDataBase.NumberArrfigures[i - counter - h, j] = 0;
 
-                                PictureBox picturebox = PictureArrfigures[j, i - counter - h];
-                                PictureArrfigures[j, i - counter - h] = null;
+                                PictureBox picturebox = FigureDataBase.PictureArrfigures[j, i - counter - h];
+                                FigureDataBase.PictureArrfigures[j, i - counter - h] = null;
 
                                 picturebox.Location = new Point(j * 40, (i - h) * 40);
                                 Thread.Sleep(60);
-                                PictureArrfigures[j, i - h] = picturebox;
+                                FigureDataBase.PictureArrfigures[j, i - h] = picturebox;
                             }
                         }
                     }
@@ -160,13 +138,13 @@ namespace WindowsFormsAppPechenka
 
         void CreatNewPictureBox(int y = 0)
         {
-            NumberArrfigures[0, y] = random.Next(1, 6);
-            FigureGenerate(y, 0, NumberArrfigures[0, y]);
+            FigureDataBase.NumberArrfigures[0, y] = random.Next(1, 6);
+            FigureDataBase.FigureGenerate(y, 0, FigureDataBase.NumberArrfigures[0, y]);
         }
 
-        private void PictureBox_Click(object sender, EventArgs e)
+        public void PictureBox_Click(object sender, EventArgs e)
         {
-           Elements.Click(sender);
+            Elements.Click(sender);
         }
 
 

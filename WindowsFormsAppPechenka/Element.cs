@@ -21,15 +21,18 @@ namespace WindowsFormsAppPechenka
         //Для числа содержашегося в массиве NumberArrfigures
         private int valuearrayfirstfigure;
 
-        private readonly PlayForm PlayForm;
-        
         //Стандартный цвет всех PictureBox'ов (Нужно для визуального выделения при шелчке мыши)
         private readonly Color PicBackColor = Color.FromArgb(255, 240, 240, 240);
-        InteractionWitchFigure Interaction = new InteractionWitchFigure();
 
-        public Element(PlayForm playForm)
+        private readonly InteractionWitchFigure Interaction;
+        private readonly PlayForm PlayForm;
+        private readonly FigureDataBase FigureDataBase;
+
+        public Element(PlayForm playForm, FigureDataBase figureDataBase)
         {
             PlayForm = playForm;
+            FigureDataBase = figureDataBase;
+            Interaction = new InteractionWitchFigure(figureDataBase);
         }
 
         public void Click(object sender)
@@ -37,7 +40,7 @@ namespace WindowsFormsAppPechenka
             if (SwapElements(sender))
             {
                 Interaction.CheckingForIdenticalElements();
-                if (PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] != 0 & PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] != 0)
+                if (FigureDataBase.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] != 0 & FigureDataBase.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] != 0)
                 {
                     Thread.Sleep(150);
                     ReversSwapElements();
@@ -63,7 +66,7 @@ namespace WindowsFormsAppPechenka
                 firstcelectedfigure = (sender as PictureBox);
                 firstlocationfigure = firstcelectedfigure.Location;
 
-                valuearrayfirstfigure = PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40];
+                valuearrayfirstfigure = FigureDataBase.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40];
                 firstcelectedfigure.BackColor = Color.FromArgb(40, 0, 0, 0);
                 return false;
             }
@@ -82,21 +85,21 @@ namespace WindowsFormsAppPechenka
                 {
                     secondlocationfigure = (sender as PictureBox).Location;
 
-                    picturebox1 = PlayForm.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40];
-                    picturebox2 = PlayForm.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40];
+                    picturebox1 = FigureDataBase.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40];
+                    picturebox2 = FigureDataBase.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40];
 
                     picturebox1.Location = new Point(secondlocationfigure.X, secondlocationfigure.Y);
                     picturebox2.Location = new Point(firstlocationfigure.X, firstlocationfigure.Y);
 
-                    PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] = PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40];
-                    PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] = valuearrayfirstfigure;
+                    FigureDataBase.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] = FigureDataBase.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40];
+                    FigureDataBase.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] = valuearrayfirstfigure;
 
-                    PlayForm.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40] = picturebox2;
-                    PlayForm.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40] = picturebox1;
+                    FigureDataBase.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40] = picturebox2;
+                    FigureDataBase.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40] = picturebox1;
 
                     firstcelectedfigure.BackColor = PicBackColor;
-                    PlayForm.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40].Refresh();
-                    PlayForm.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40].Refresh();
+                    FigureDataBase.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40].Refresh();
+                    FigureDataBase.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40].Refresh();
                     return true;
                 }
             }
@@ -105,19 +108,19 @@ namespace WindowsFormsAppPechenka
         private void ReversSwapElements()
         {
             //Когда уже элементы перемешены, это оказывается 2 элемент
-            valuearrayfirstfigure = PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40];
+            valuearrayfirstfigure = FigureDataBase.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40];
 
             picturebox1.Location = new Point(firstlocationfigure.X, firstlocationfigure.Y);
             picturebox2.Location = new Point(secondlocationfigure.X, secondlocationfigure.Y);
 
-            PlayForm.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] = PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40];
-            PlayForm.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] = valuearrayfirstfigure;
+            FigureDataBase.NumberArrfigures[firstlocationfigure.Y / 40, firstlocationfigure.X / 40] = FigureDataBase.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40];
+            FigureDataBase.NumberArrfigures[secondlocationfigure.Y / 40, secondlocationfigure.X / 40] = valuearrayfirstfigure;
 
-            PlayForm.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40] = picturebox1;
-            PlayForm.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40] = picturebox2;
+            FigureDataBase.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40] = picturebox1;
+            FigureDataBase.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40] = picturebox2;
 
-            PlayForm.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40].Refresh();
-            PlayForm.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40].Refresh();
+            FigureDataBase.PictureArrfigures[secondlocationfigure.X / 40, secondlocationfigure.Y / 40].Refresh();
+            FigureDataBase.PictureArrfigures[firstlocationfigure.X / 40, firstlocationfigure.Y / 40].Refresh();
         }
 
     }

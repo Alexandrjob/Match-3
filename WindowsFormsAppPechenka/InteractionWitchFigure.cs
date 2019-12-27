@@ -13,6 +13,12 @@ namespace WindowsFormsAppPechenka
         private int countergorizontal = 0;
         private int countervertical = 0;
 
+        private readonly FigureDataBase FigureDataBase;
+
+        public InteractionWitchFigure(FigureDataBase figureDataBase)
+        {
+            FigureDataBase = figureDataBase;
+        }
         public void CheckingForIdenticalElements()
         {
             isfiguresdelete = false;
@@ -41,7 +47,7 @@ namespace WindowsFormsAppPechenka
 
         private void CheckGorizontal(int i, int j)
         {
-            if (PlayForm.NumberArrfigures[i, j] == PlayForm.NumberArrfigures[i, j + 1] & PlayForm.NumberArrfigures[i, j] != 0)
+            if (FigureDataBase.NumberArrfigures[i, j] == FigureDataBase.NumberArrfigures[i, j + 1] & FigureDataBase.NumberArrfigures[i, j] != 0)
             {
                 if (countergorizontal == 0)
                 {
@@ -73,7 +79,7 @@ namespace WindowsFormsAppPechenka
 
         private void CheckVertical(int i, int j)
         {
-            if (PlayForm.NumberArrfigures[j, i] == PlayForm.NumberArrfigures[j + 1, i] & PlayForm.NumberArrfigures[j, i] != 0)
+            if (FigureDataBase.NumberArrfigures[j, i] == FigureDataBase.NumberArrfigures[j + 1, i] & FigureDataBase.NumberArrfigures[j, i] != 0)
             {
                 if (countervertical == 0)
                 {
@@ -113,14 +119,14 @@ namespace WindowsFormsAppPechenka
 
                 int i = sameElements[deletepoint, p];
                 int j = sameElements[deletepoint + 1, p];
-                PlayForm.NumberArrfigures[i, j] = 0;
-                if (PlayForm.PictureArrfigures[j, i] != null)
+                FigureDataBase.NumberArrfigures[i, j] = 0;
+                if (FigureDataBase.PictureArrfigures[j, i] != null)
                 {
-                    PlayForm.PictureArrfigures[j, i].BackColor = Color.Aqua;
-                    PlayForm.PictureArrfigures[j, i].Refresh();
+                    FigureDataBase.PictureArrfigures[j, i].BackColor = Color.Aqua;
+                    FigureDataBase.PictureArrfigures[j, i].Refresh();
                     Thread.Sleep(50);
-                    PlayForm.PictureArrfigures[j, i].Dispose();
-                    PlayForm.PictureArrfigures[j, i] = null;
+                    FigureDataBase.PictureArrfigures[j, i].Dispose();
+                    FigureDataBase.PictureArrfigures[j, i] = null;
                 }
             }
             isfiguresdelete = true;
