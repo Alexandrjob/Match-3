@@ -10,7 +10,7 @@ namespace WindowsFormsAppPechenka
     {
         //Для размеров формы и _sizeOfSides для размера ячеек и фигурок 
         private readonly int _width = 320;
-        private readonly int _height = 320;
+        private readonly int _height = 420;
         private readonly int _sizeOfSides = 40;
         private readonly Random random = new Random();
 
@@ -64,6 +64,22 @@ namespace WindowsFormsAppPechenka
                 this.Controls.Add(pic);
             }
         }
+        
+        //            WARNING: the code that follows will make you cry.
+        //                  a safety pig is provided below for your benefit
+        // _._ _..._ .-',     _.._(`))
+        //'-. `     '  /-._.-'    ',/
+        //   )         \            '.
+        //  / _    _    |             \
+        // |  a    a    /              |
+        // \   .-.                     ;  
+        //  '-('' ).-'       ,'       ;
+        //     '-;           |      .'
+        //        \           \    /
+        //        | 7  .__  _.-\   \
+        //        | |  |  ``/  /`  /
+        //       /,_|  |   /,_/   /
+        //          /,_/      '`-'
 
         public void moving()
         {

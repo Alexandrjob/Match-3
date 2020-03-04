@@ -32,7 +32,7 @@
             this.labelTime = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            labelgamepoint = new System.Windows.Forms.Label();
+            this.labelgamepoint = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ExitToMainForm
@@ -52,7 +52,7 @@
             this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelTime.Location = new System.Drawing.Point(499, 34);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(49, 36);
+            this.labelTime.Size = new System.Drawing.Size(47, 33);
             this.labelTime.TabIndex = 1;
             this.labelTime.Text = "60";
             // 
@@ -76,20 +76,20 @@
             // 
             // labelgamepoint
             // 
-            labelgamepoint.AutoSize = true;
-            labelgamepoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            labelgamepoint.Location = new System.Drawing.Point(500, 128);
-            labelgamepoint.Name = "labelgamepoint";
-            labelgamepoint.Size = new System.Drawing.Size(27, 29);
-            labelgamepoint.TabIndex = 5;
-            labelgamepoint.Text = "0";
+            this.labelgamepoint.AutoSize = true;
+            this.labelgamepoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelgamepoint.Location = new System.Drawing.Point(500, 128);
+            this.labelgamepoint.Name = "labelgamepoint";
+            this.labelgamepoint.Size = new System.Drawing.Size(26, 29);
+            this.labelgamepoint.TabIndex = 5;
+            this.labelgamepoint.Text = "0";
             // 
             // PlayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 313);
-            this.Controls.Add(labelgamepoint);
+            this.ClientSize = new System.Drawing.Size(699, 304);
+            this.Controls.Add(this.labelgamepoint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelTime);
@@ -110,6 +110,6 @@
         public static System.Windows.Forms.Label labelpoints;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public static System.Windows.Forms.Label labelgamepoint;
+        public System.Windows.Forms.Label labelgamepoint;
     }
 }
