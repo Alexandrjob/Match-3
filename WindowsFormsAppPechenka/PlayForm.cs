@@ -10,7 +10,7 @@ namespace WindowsFormsAppPechenka
     {
         //Для размеров формы и _sizeOfSides для размера ячеек и фигурок 
         private readonly int _width = 320;
-        private readonly int _height = 420;
+        private readonly int _height = 320;
         private readonly int _sizeOfSides = 40;
         private readonly Random random = new Random();
 
@@ -31,8 +31,8 @@ namespace WindowsFormsAppPechenka
             Elements = new Element(this, FigureDataBase);
 
             InitializeComponent();
-            this.Width = _width + 170;
-            this.Height = _height + 35;
+            this.Width = _width + 300;
+            this.Height = _height + 45;
             MapGenerate();
             FigureDataBase.ArraysGenerate();
 

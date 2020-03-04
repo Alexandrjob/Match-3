@@ -32,7 +32,7 @@
             this.labelTime = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.labelgamepoint = new System.Windows.Forms.Label();
+            labelPoints = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ExitToMainForm
@@ -74,22 +74,22 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Колиество очков";
             // 
-            // labelgamepoint
+            // labelPoints
             // 
-            this.labelgamepoint.AutoSize = true;
-            this.labelgamepoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelgamepoint.Location = new System.Drawing.Point(500, 128);
-            this.labelgamepoint.Name = "labelgamepoint";
-            this.labelgamepoint.Size = new System.Drawing.Size(26, 29);
-            this.labelgamepoint.TabIndex = 5;
-            this.labelgamepoint.Text = "0";
+            labelPoints.AutoSize = true;
+            labelPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            labelPoints.Location = new System.Drawing.Point(500, 128);
+            labelPoints.Name = "labelPoints";
+            labelPoints.Size = new System.Drawing.Size(26, 29);
+            labelPoints.TabIndex = 5;
+            labelPoints.Text = "0";
             // 
             // PlayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 304);
-            this.Controls.Add(this.labelgamepoint);
+            this.Controls.Add(labelPoints);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelTime);
@@ -107,9 +107,8 @@
 
         private System.Windows.Forms.Button ExitToMainForm;
         private System.Windows.Forms.Label labelTime;
-        public static System.Windows.Forms.Label labelpoints;
+        public static System.Windows.Forms.Label labelPoints;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.Label labelgamepoint;
     }
 }

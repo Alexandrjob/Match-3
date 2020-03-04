@@ -114,9 +114,9 @@ namespace WindowsFormsAppPechenka
             for (int p = 0; p < counter + 1; p++)
             {
                 gamepoint += 100;
-                PlayForm.labelgamepoint.Text = gamepoint.ToString();
-                PlayForm.labelgamepoint.Refresh();
-
+                PlayForm.labelPoints.Text = gamepoint.ToString();
+                PlayForm.labelPoints.Refresh();
+    
                 int i = sameElements[deletepoint, p];
                 int j = sameElements[deletepoint + 1, p];
                 FigureDataBase.NumberArrfigures[i, j] = 0;
